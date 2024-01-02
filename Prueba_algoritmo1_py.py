@@ -60,72 +60,78 @@ def calcular_distancia_entre_nodos(G, nodo1, nodo2):
     y2, x2 = G.nodes[nodo2]['y'], G.nodes[nodo2]['x']
     return ox.utils.euclidean_dist_vec(y1, x1, y2, x2)
 
-def buscar_rutas(G, nodo_actual, nodo_inicio, ruta_actual, distancia_actual, distancia_max, rutas):
-    if distancia_actual > distancia_max:
+def buscar_rutas(G, nodo_actual, nodo_inicio, ruta_actual, distancia_actual, distancia_max, rutas, visitados):
+    # Comprobación de límites: detiene la búsqueda si se excede la distancia máxima o se revisita un nodo en una ruta menos eficiente
+    if distancia_actual > distancia_max or (nodo_actual in visitados and visitados[nodo_actual] <= distancia_actual):
         return
+
+    # Comprobar si hemos vuelto al nodo de inicio y la ruta tiene más de un nodo, en cuyo caso, se añade a la lista de rutas
     if nodo_actual == nodo_inicio and len(ruta_actual) > 1:
         rutas.append(ruta_actual.copy())
         return
+
+    # Marcar el nodo actual como visitado con la distancia actual
+    visitados[nodo_actual] = distancia_actual
+
+    # Explorar todos los vecinos del nodo actual
     for vecino in G.neighbors(nodo_actual):
+        # Comprobar si el vecino no está en la ruta actual o es el nodo de inicio (para cerrar la ruta)
         if vecino not in ruta_actual or (vecino == nodo_inicio and len(ruta_actual) > 1):
+            # Añadir el vecino a la ruta actual y actualizar la distancia
             ruta_actual.append(vecino)
-            buscar_rutas(G, vecino, nodo_inicio, ruta_actual, distancia_actual + calcular_distancia_entre_nodos(G, nodo_actual, vecino), distancia_max, rutas)
+            nueva_distancia = distancia_actual + calcular_distancia_entre_nodos(G, nodo_actual, vecino)
+
+            # Llamada recursiva para continuar buscando desde el vecino
+            buscar_rutas(G, vecino, nodo_inicio, ruta_actual, nueva_distancia, distancia_max, rutas, visitados)
+
+            # Quitar el vecino de la ruta actual (backtracking)
             ruta_actual.pop()
 
 def encontrar_rutas_circulares(G, nodo_inicio, distancia_max):
+    # Lista para almacenar todas las rutas encontradas
     rutas = []
-    buscar_rutas(G, nodo_inicio, nodo_inicio, [nodo_inicio], 0, distancia_max, rutas)
+
+    # Iniciar la búsqueda de rutas con la función de backtracking
+    buscar_rutas(G, nodo_inicio, nodo_inicio, [nodo_inicio], 0, distancia_max, rutas, {})
+
+    # Devolver las rutas encontradas
     return rutas
 
-def encontrar_rutas_circulares(G, nodo_inicio, distancia_max):
-    # Esta función encuentra todas las rutas circulares posibles que comienzan y terminan en el nodo_inicio
-    # y cuya longitud total es aproximadamente igual a distancia_max.
-    rutas = []
-    for path in nx.all_simple_paths(G, source=nodo_inicio, target=nodo_inicio, cutoff=distancia_max):
-        ruta_longitud = sum(ox.utils.euclidean_dist_vec(G.nodes[path[i]]['y'], 
-                                                        G.nodes[path[i]]['x'],
-                                                        G.nodes[path[i+1]]['y'], 
-                                                        G.nodes[path[i+1]]['x']) 
-                            for i in range(len(path) - 1))
-        if ruta_longitud <= distancia_max:
-            rutas.append(path)
-    return rutas
 
-def seleccionar_ruta(rutas, perfil_perro):
-    # Si no hay rutas, devuelve None
+def puntuar_ruta(ruta, G, zonas_verdes_gdf, perfil_perro):
+    # Factores de puntuación basados en el perfil del perro
+    factor_tamaño = {'pequeño': 1, 'mediano': 2, 'grande': 3}.get(perfil_perro.get('tamaño', 'mediano'), 2)
+    factor_edad = 1 if perfil_perro.get('edad', 5) < 8 else 1.5  # Mayor puntaje para perros mayores
+
+    # Calcular la longitud total de la ruta
+    longitud_ruta = sum(calcular_distancia_entre_nodos(G, ruta[i], ruta[i+1]) for i in range(len(ruta)-1))
+
+    # Calcular la proximidad a zonas verdes
+    proximidad_zonas_verdes = sum(calcular_distancia_a_zonas_verdes(gpd.GeoDataFrame([{'geometry': Point(G.nodes[n]['x'], G.nodes[n]['y'])}]), zonas_verdes_gdf) for n in ruta) / len(ruta)
+
+    # Calcular la puntuación de la ruta
+    puntuacion = (longitud_ruta * factor_tamaño + proximidad_zonas_verdes) * factor_edad
+
+    return puntuacion
+
+def seleccionar_ruta(rutas, G, zonas_verdes_gdf, perfil_perro):
     if not rutas:
         return None
 
-    # Factores del perfil del perro
-    edad = perfil_perro.get('edad', 0)
-    tamaño = perfil_perro.get('tamaño', 'mediano').lower()
-    tipo = perfil_perro.get('tipo', 'normal').lower()
+    # Evaluar y puntuar cada ruta
+    puntuaciones_rutas = [(ruta, puntuar_ruta(ruta, G, zonas_verdes_gdf, perfil_perro)) for ruta in rutas]
 
-    # Clasificación del tamaño del perro
-    tamaño_ruta = 'larga' if tamaño in ['grande', 'gigante'] else 'corta'
+    # Ordenar las rutas por puntuación (menor es mejor)
+    puntuaciones_rutas.sort(key=lambda x: x[1])
 
-    # Clasificación por edad
-    edad_ruta = 'corta' if edad > 8 else 'larga'
-
-    # Clasificación por tipo de perro
-    tipo_ruta = 'variada' if tipo in ['nervioso', 'caza', 'rastreo'] else 'simple'
-
-    # Decidir qué ruta seleccionar
-    for ruta in rutas:
-        # Aquí se puede implementar una lógica para evaluar cada ruta
-        # Por ejemplo, calcular la longitud, la variedad del terreno, etc.
-        # Y luego comparar con las preferencias/perfil del perro
-
-    # Si no se encuentra una ruta ideal, devolver la primera como predeterminada
-        return rutas[0]
-
+    # Devolver la ruta con la mejor puntuación
+    return puntuaciones_rutas[0][0] if puntuaciones_rutas else None
 
 def generar_rutas(G, nodo_inicio, duracion, perfil_perro):
     distancia_estimada = estimar_distancia(duracion, perfil_perro)
     rutas_posibles = encontrar_rutas_circulares(G, nodo_inicio, distancia_estimada)
     mejor_ruta = seleccionar_ruta(rutas_posibles, perfil_perro)
     return mejor_ruta
-
 
 def visualizar_rutas(G, rutas, latitud_actual, longitud_actual):
     mapa = folium.Map(location=[latitud_actual, longitud_actual], zoom_start=15)
