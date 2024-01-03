@@ -1,13 +1,16 @@
 import osmnx as ox
+from osmnx import settings
 import networkx as nx
 import folium
 import geopandas as gpd
+import json
 import pandas as pd
 from shapely.geometry import Point, LineString
 from shapely.ops import nearest_points
 
-# Configura OSMnx
-ox.config(use_cache=True, log_console=True)
+# Configuración de OSMnx utilizando el módulo settings
+settings.use_cache = True
+settings.log_console = True
 
 # Funciones Auxiliares
 def cargar_datos():
@@ -36,18 +39,24 @@ def obtener_ubicacion_actual():
 def estimar_velocidad(perfil_perro):
     # Simplificación de la lógica
     peso = perfil_perro.get('peso', 0)
-    tipo = perfil_perro.get('tipo', '').lower()
+    comportamiento = perfil_perro.get('comportamiento', '').lower()
 
-    if tipo == 'moloso':
+    # Velocidades ajustadas para los tres comportamientos
+    if comportamiento == 'tranquilo':
+        return 2  # Velocidad más lenta para perros tranquilos
+    elif comportamiento == 'curioso':
+        # Velocidad media, considerando que pueden ser tranquilos o energéticos
         return 3
-    if tipo in ['nervioso', 'caza', 'rastreo']:
-        return 4
-    if peso <= 7 or (peso <= 18 and tipo == 'tranquilo'):
+    elif comportamiento == 'energético':
+        return 4  # Velocidad más alta para perros energéticos
+
+    # Si no se especifica el comportamiento, se estima basado en el peso
+    if peso <= 7:
         return 2
-    if peso > 18:
+    elif peso > 18:
         return 4  
 
-    return 3
+    return 3  # Velocidad por defecto si no hay suficiente información
 
 def estimar_distancia(duracion, perfil_perro):
     # Calcula la distancia basada en la duración del paseo y el perfil del perro
@@ -97,7 +106,6 @@ def encontrar_rutas_circulares(G, nodo_inicio, distancia_max):
     # Devolver las rutas encontradas
     return rutas
 
-
 def puntuar_ruta(ruta, G, zonas_verdes_gdf, perfil_perro):
     # Factores de puntuación basados en el perfil del perro
     factor_tamaño = {'pequeño': 1, 'mediano': 2, 'grande': 3}.get(perfil_perro.get('tamaño', 'mediano'), 2)
@@ -139,14 +147,32 @@ def visualizar_rutas(G, rutas, latitud_actual, longitud_actual):
         ox.plot_route_folium(G, ruta, route_map=mapa)
     return mapa
 
+def cargar_datos_perro(json_input):
+
+    try:
+        datos_perro = json.loads(json_input)
+        return datos_perro
+    except json.JSONDecodeError:
+        print("Error al decodificar el JSON. Verifique la entrada.")
+        return None
+    
 # Principal
-def main():
+def main(json_input):
+    # Cargar datos del perro y la ubicación desde JSON
+    datos_perro = cargar_datos_perro(json_input)
+    if not datos_perro:
+        print("No se pudieron cargar los datos del perro.")
+        return
+
+    latitud_actual, longitud_actual = datos_perro['latitud'], datos_perro['longitud']
+    tamaño, edad, raza = datos_perro['tamaño'], datos_perro['edad'], datos_perro['raza']
+    duracion_paseo = datos_perro['duracion']
+
     # Cargar datos de calles y zonas verdes
     calles_gdf, zonas_verdes_gdf = cargar_datos()
     if calles_gdf is None or zonas_verdes_gdf is None:
-            return
-    # Obtener ubicación actual
-    latitud_actual, longitud_actual = obtener_ubicacion_actual()
+        print("No se pudieron cargar los datos geográficos.")
+        return
 
     # Crear grafo a partir de los datos geográficos
     G = ox.graph_from_gdfs(calles_gdf, zonas_verdes_gdf)
@@ -156,16 +182,15 @@ def main():
 
     nodo_mas_cercano = ox.get_nearest_node(G, (latitud_actual, longitud_actual))
 
-    # Definir perfil del perro y duración del paseo
-    perfil_perro = {'tamaño': 'mediano', 'edad': 5}
-    duracion_paseo = 30  # Duración en minutos
-
     # Generar rutas
+    perfil_perro = {'tamaño': tamaño, 'edad': edad, 'raza': raza}
     rutas = generar_rutas(G, nodo_mas_cercano, duracion_paseo, perfil_perro)
 
     # Visualizar rutas
     mapa_rutas = visualizar_rutas(G, rutas, latitud_actual, longitud_actual)
     mapa_rutas.save('rutas_paseo.html')
 
+
 if __name__ == "__main__":
-    main()
+    json_input = '{"latitud": 42.3439, "longitud": -3.1007, "tamaño": "mediano", "edad": 5, "raza": "Labrador", "duracion": 30}'
+    main(json_input)
