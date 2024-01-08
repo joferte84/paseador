@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8d5509534aecc56c69f8201047f928ac {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_8d5509534aecc56c69f8201047f928ac" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_8d5509534aecc56c69f8201047f928ac = L.map(
+                "map_8d5509534aecc56c69f8201047f928ac",
+                {
+                    center: [42.34872025212935, -3.6904382890985996],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 15,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_3410fa905c9d275f6943e7b5fcca994b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_3410fa905c9d275f6943e7b5fcca994b.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_721de8f0914f3b30c485d607455c7814_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_721de8f0914f3b30c485d607455c7814_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_721de8f0914f3b30c485d607455c7814 = L.geoJson(null, {
+                onEachFeature: geo_json_721de8f0914f3b30c485d607455c7814_onEachFeature,
+            
+                style: geo_json_721de8f0914f3b30c485d607455c7814_styler,
+        });
+
+        function geo_json_721de8f0914f3b30c485d607455c7814_add (data) {
+            geo_json_721de8f0914f3b30c485d607455c7814
+                .addData(data);
+        }
+            geo_json_721de8f0914f3b30c485d607455c7814_add({"features": [{"geometry": {"coordinates": [[[-3.6790204, 42.3587622], [-3.6787153, 42.3584304], [-3.6790861, 42.3582409], [-3.679391, 42.3585732], [-3.6790204, 42.3587622]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_e320bfdc56891f580b0213582ab5945e = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_8a9c5a4726dd388f8a8bd76a1a18dfdc = $(`<div id="html_8a9c5a4726dd388f8a8bd76a1a18dfdc" style="width: 100.0%; height: 100.0%;">ID: 108&lt;br&gt;Nombre: Zona de esparcimiento canino&lt;br&gt;Área: 3032.21 m²</div>`)[0];
+                popup_e320bfdc56891f580b0213582ab5945e.setContent(html_8a9c5a4726dd388f8a8bd76a1a18dfdc);
+            
+        
+
+        geo_json_721de8f0914f3b30c485d607455c7814.bindPopup(popup_e320bfdc56891f580b0213582ab5945e)
+        ;
+
+        
+    
+    
+            geo_json_721de8f0914f3b30c485d607455c7814.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_dbef47e3028ca3685fc23953621a7e60_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_dbef47e3028ca3685fc23953621a7e60_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_dbef47e3028ca3685fc23953621a7e60 = L.geoJson(null, {
+                onEachFeature: geo_json_dbef47e3028ca3685fc23953621a7e60_onEachFeature,
+            
+                style: geo_json_dbef47e3028ca3685fc23953621a7e60_styler,
+        });
+
+        function geo_json_dbef47e3028ca3685fc23953621a7e60_add (data) {
+            geo_json_dbef47e3028ca3685fc23953621a7e60
+                .addData(data);
+        }
+            geo_json_dbef47e3028ca3685fc23953621a7e60_add({"features": [{"geometry": {"coordinates": [[[-3.6796631, 42.3542093], [-3.6796191, 42.3542314], [-3.6795986, 42.3542511], [-3.6795892, 42.354272], [-3.6795515, 42.3542755], [-3.6795216, 42.3542732], [-3.6795232, 42.3541838], [-3.6795342, 42.3541153], [-3.6795311, 42.3540502], [-3.6795138, 42.3539748], [-3.6794431, 42.353847], [-3.6793896, 42.3537425], [-3.679918, 42.3535856], [-3.6799946, 42.3537286], [-3.6799978, 42.3537692], [-3.6799742, 42.3538877], [-3.6799475, 42.3539701], [-3.6799318, 42.3539806], [-3.6799114, 42.3539759], [-3.6798972, 42.3539434], [-3.6798658, 42.3539237], [-3.6798186, 42.3539388], [-3.6797904, 42.3539655], [-3.6797888, 42.3539887], [-3.6797605, 42.3540073], [-3.6797322, 42.3540595], [-3.6796631, 42.3542093]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_eca5d7b10ba9e6c4db4958352b5ba392 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f220086fc03df089f8d75e65dfb5177d = $(`<div id="html_f220086fc03df089f8d75e65dfb5177d" style="width: 100.0%; height: 100.0%;">ID: 204&lt;br&gt;Nombre: Zona de esparcimiento canino&lt;br&gt;Área: 3647.16 m²</div>`)[0];
+                popup_eca5d7b10ba9e6c4db4958352b5ba392.setContent(html_f220086fc03df089f8d75e65dfb5177d);
+            
+        
+
+        geo_json_dbef47e3028ca3685fc23953621a7e60.bindPopup(popup_eca5d7b10ba9e6c4db4958352b5ba392)
+        ;
+
+        
+    
+    
+            geo_json_dbef47e3028ca3685fc23953621a7e60.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_573388ec520ec0aa67e9ca0094cbc25e_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_573388ec520ec0aa67e9ca0094cbc25e_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_573388ec520ec0aa67e9ca0094cbc25e = L.geoJson(null, {
+                onEachFeature: geo_json_573388ec520ec0aa67e9ca0094cbc25e_onEachFeature,
+            
+                style: geo_json_573388ec520ec0aa67e9ca0094cbc25e_styler,
+        });
+
+        function geo_json_573388ec520ec0aa67e9ca0094cbc25e_add (data) {
+            geo_json_573388ec520ec0aa67e9ca0094cbc25e
+                .addData(data);
+        }
+            geo_json_573388ec520ec0aa67e9ca0094cbc25e_add({"features": [{"geometry": {"coordinates": [[[-3.703939, 42.3287263], [-3.703931, 42.3286598], [-3.7039766, 42.3284873], [-3.7034562, 42.3285101], [-3.7034683, 42.3285488], [-3.7035273, 42.3285775], [-3.7035756, 42.3286112], [-3.7035964, 42.3286236], [-3.7036279, 42.3286395], [-3.7036976, 42.3286588], [-3.70377, 42.3286782], [-3.7038639, 42.3287079], [-3.7039095, 42.3287401], [-3.703939, 42.3287263]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_5dd280dacce8e64a5cb7416387335c34 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_33240b083c33e350253ccaa7b647e41c = $(`<div id="html_33240b083c33e350253ccaa7b647e41c" style="width: 100.0%; height: 100.0%;">ID: 304&lt;br&gt;Nombre: Parque para Perros&lt;br&gt;Área: 1265.99 m²</div>`)[0];
+                popup_5dd280dacce8e64a5cb7416387335c34.setContent(html_33240b083c33e350253ccaa7b647e41c);
+            
+        
+
+        geo_json_573388ec520ec0aa67e9ca0094cbc25e.bindPopup(popup_5dd280dacce8e64a5cb7416387335c34)
+        ;
+
+        
+    
+    
+            geo_json_573388ec520ec0aa67e9ca0094cbc25e.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_1e6361eb33974cfea6fcd9a06596bcaa_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_1e6361eb33974cfea6fcd9a06596bcaa_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_1e6361eb33974cfea6fcd9a06596bcaa = L.geoJson(null, {
+                onEachFeature: geo_json_1e6361eb33974cfea6fcd9a06596bcaa_onEachFeature,
+            
+                style: geo_json_1e6361eb33974cfea6fcd9a06596bcaa_styler,
+        });
+
+        function geo_json_1e6361eb33974cfea6fcd9a06596bcaa_add (data) {
+            geo_json_1e6361eb33974cfea6fcd9a06596bcaa
+                .addData(data);
+        }
+            geo_json_1e6361eb33974cfea6fcd9a06596bcaa_add({"features": [{"geometry": {"coordinates": [[[-3.6207767, 42.3444841], [-3.6213607, 42.3440717], [-3.6209618, 42.3439622], [-3.6206514, 42.3440237], [-3.6205219, 42.3440563], [-3.6203795, 42.3441189], [-3.6204426, 42.3441891], [-3.6205749, 42.3443126], [-3.6207767, 42.3444841]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_2b70cedce8f8cfc1610ed1bbe079de11 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_ba2c0ada7752d35506beb7480e7e24c4 = $(`<div id="html_ba2c0ada7752d35506beb7480e7e24c4" style="width: 100.0%; height: 100.0%;">ID: 1203&lt;br&gt;Nombre: Residencia Canina Ramos&lt;br&gt;Área: 4415.49 m²</div>`)[0];
+                popup_2b70cedce8f8cfc1610ed1bbe079de11.setContent(html_ba2c0ada7752d35506beb7480e7e24c4);
+            
+        
+
+        geo_json_1e6361eb33974cfea6fcd9a06596bcaa.bindPopup(popup_2b70cedce8f8cfc1610ed1bbe079de11)
+        ;
+
+        
+    
+    
+            geo_json_1e6361eb33974cfea6fcd9a06596bcaa.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_6c286fa8f028c7093b8a834cff3790ed_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_6c286fa8f028c7093b8a834cff3790ed_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_6c286fa8f028c7093b8a834cff3790ed = L.geoJson(null, {
+                onEachFeature: geo_json_6c286fa8f028c7093b8a834cff3790ed_onEachFeature,
+            
+                style: geo_json_6c286fa8f028c7093b8a834cff3790ed_styler,
+        });
+
+        function geo_json_6c286fa8f028c7093b8a834cff3790ed_add (data) {
+            geo_json_6c286fa8f028c7093b8a834cff3790ed
+                .addData(data);
+        }
+            geo_json_6c286fa8f028c7093b8a834cff3790ed_add({"features": [{"geometry": {"coordinates": [[[-3.7238936, 42.3466228], [-3.7234919, 42.3466647], [-3.7232884, 42.3466934], [-3.7231645, 42.3466921], [-3.7230637, 42.3466647], [-3.7231216, 42.3465819], [-3.7233875, 42.3462017], [-3.7234636, 42.3460853], [-3.7234862, 42.3460679], [-3.7235131, 42.3460643], [-3.7235715, 42.3460735], [-3.723929, 42.3462069], [-3.724405, 42.3463874], [-3.7243325, 42.3464423], [-3.7240564, 42.3465626], [-3.7239485, 42.346611], [-3.7238936, 42.3466228]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_a245d58a1b825891dfc84e177c0b3eba = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_909d370e259df0fc3498e0ed070d79d5 = $(`<div id="html_909d370e259df0fc3498e0ed070d79d5" style="width: 100.0%; height: 100.0%;">ID: 1205&lt;br&gt;Nombre: Zona de esparcimiento canino&lt;br&gt;Área: 7824.94 m²</div>`)[0];
+                popup_a245d58a1b825891dfc84e177c0b3eba.setContent(html_909d370e259df0fc3498e0ed070d79d5);
+            
+        
+
+        geo_json_6c286fa8f028c7093b8a834cff3790ed.bindPopup(popup_a245d58a1b825891dfc84e177c0b3eba)
+        ;
+
+        
+    
+    
+            geo_json_6c286fa8f028c7093b8a834cff3790ed.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_66c9892bc65e46e4dee6e83eb2b9ff71_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_66c9892bc65e46e4dee6e83eb2b9ff71_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_66c9892bc65e46e4dee6e83eb2b9ff71 = L.geoJson(null, {
+                onEachFeature: geo_json_66c9892bc65e46e4dee6e83eb2b9ff71_onEachFeature,
+            
+                style: geo_json_66c9892bc65e46e4dee6e83eb2b9ff71_styler,
+        });
+
+        function geo_json_66c9892bc65e46e4dee6e83eb2b9ff71_add (data) {
+            geo_json_66c9892bc65e46e4dee6e83eb2b9ff71
+                .addData(data);
+        }
+            geo_json_66c9892bc65e46e4dee6e83eb2b9ff71_add({"features": [{"geometry": {"coordinates": [[[-3.6971035, 42.3360334], [-3.6970001, 42.3359228], [-3.6969597, 42.3359284], [-3.6969184, 42.3359341], [-3.6966434, 42.3359722], [-3.6966008, 42.3359947], [-3.6966349, 42.336019], [-3.6968418, 42.3360505], [-3.6970049, 42.3360613], [-3.6970542, 42.3360474], [-3.6971035, 42.3360334]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_d33629579dd50dfa492102fe095335e4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7fc517cf7a1c8a1fd58c5f5224c27a7f = $(`<div id="html_7fc517cf7a1c8a1fd58c5f5224c27a7f" style="width: 100.0%; height: 100.0%;">ID: 1208&lt;br&gt;Nombre: Parque para Perros&lt;br&gt;Área: 719.34 m²</div>`)[0];
+                popup_d33629579dd50dfa492102fe095335e4.setContent(html_7fc517cf7a1c8a1fd58c5f5224c27a7f);
+            
+        
+
+        geo_json_66c9892bc65e46e4dee6e83eb2b9ff71.bindPopup(popup_d33629579dd50dfa492102fe095335e4)
+        ;
+
+        
+    
+    
+            geo_json_66c9892bc65e46e4dee6e83eb2b9ff71.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_d117e0e3569099284745e73acacaecc2_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_d117e0e3569099284745e73acacaecc2_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_d117e0e3569099284745e73acacaecc2 = L.geoJson(null, {
+                onEachFeature: geo_json_d117e0e3569099284745e73acacaecc2_onEachFeature,
+            
+                style: geo_json_d117e0e3569099284745e73acacaecc2_styler,
+        });
+
+        function geo_json_d117e0e3569099284745e73acacaecc2_add (data) {
+            geo_json_d117e0e3569099284745e73acacaecc2
+                .addData(data);
+        }
+            geo_json_d117e0e3569099284745e73acacaecc2_add({"features": [{"geometry": {"coordinates": [[[-3.6635816, 42.3527517], [-3.6635159, 42.3526018], [-3.6637743, 42.3525399], [-3.6636607, 42.3522807], [-3.6630719, 42.3524217], [-3.6630859, 42.3524537], [-3.6632514, 42.3528308], [-3.6634526, 42.3527826], [-3.6635816, 42.3527517]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_6f3bdfc260410ecd474d4b7f8a2fb45b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_35e300194eca4c00d48b9296a9a4e0c1 = $(`<div id="html_35e300194eca4c00d48b9296a9a4e0c1" style="width: 100.0%; height: 100.0%;">ID: 1211&lt;br&gt;Nombre: Parque para Perros&lt;br&gt;Área: 3745.02 m²</div>`)[0];
+                popup_6f3bdfc260410ecd474d4b7f8a2fb45b.setContent(html_35e300194eca4c00d48b9296a9a4e0c1);
+            
+        
+
+        geo_json_d117e0e3569099284745e73acacaecc2.bindPopup(popup_6f3bdfc260410ecd474d4b7f8a2fb45b)
+        ;
+
+        
+    
+    
+            geo_json_d117e0e3569099284745e73acacaecc2.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_c0db728d9a9a2c8dd0531e1cec00d413_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_c0db728d9a9a2c8dd0531e1cec00d413_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_c0db728d9a9a2c8dd0531e1cec00d413 = L.geoJson(null, {
+                onEachFeature: geo_json_c0db728d9a9a2c8dd0531e1cec00d413_onEachFeature,
+            
+                style: geo_json_c0db728d9a9a2c8dd0531e1cec00d413_styler,
+        });
+
+        function geo_json_c0db728d9a9a2c8dd0531e1cec00d413_add (data) {
+            geo_json_c0db728d9a9a2c8dd0531e1cec00d413
+                .addData(data);
+        }
+            geo_json_c0db728d9a9a2c8dd0531e1cec00d413_add({"features": [{"geometry": {"coordinates": [[[-3.6810883, 42.3479623], [-3.6810723, 42.3479735], [-3.6810284, 42.3479746], [-3.6810148, 42.3479736], [-3.680828, 42.3479594], [-3.6806963, 42.3479616], [-3.6805354, 42.3479746], [-3.6804242, 42.3479854], [-3.6803496, 42.3479811], [-3.6801213, 42.3479432], [-3.6800291, 42.3479269], [-3.6799019, 42.3479043], [-3.6798049, 42.3478799], [-3.6798245, 42.3478692], [-3.6804587, 42.3475196], [-3.680682, 42.3478061], [-3.681097, 42.3479266], [-3.6810883, 42.3479623]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_870fe21d5c9b1fc199be2b90e6a5d5c6 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_65677536c8f981440291fe9d87814845 = $(`<div id="html_65677536c8f981440291fe9d87814845" style="width: 100.0%; height: 100.0%;">ID: 1212&lt;br&gt;Nombre: Zona de esparcimiento canino&lt;br&gt;Área: 4504.22 m²</div>`)[0];
+                popup_870fe21d5c9b1fc199be2b90e6a5d5c6.setContent(html_65677536c8f981440291fe9d87814845);
+            
+        
+
+        geo_json_c0db728d9a9a2c8dd0531e1cec00d413.bindPopup(popup_870fe21d5c9b1fc199be2b90e6a5d5c6)
+        ;
+
+        
+    
+    
+            geo_json_c0db728d9a9a2c8dd0531e1cec00d413.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_c7fc7af6a1a9ec9c2176992498db47bc_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_c7fc7af6a1a9ec9c2176992498db47bc_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_c7fc7af6a1a9ec9c2176992498db47bc = L.geoJson(null, {
+                onEachFeature: geo_json_c7fc7af6a1a9ec9c2176992498db47bc_onEachFeature,
+            
+                style: geo_json_c7fc7af6a1a9ec9c2176992498db47bc_styler,
+        });
+
+        function geo_json_c7fc7af6a1a9ec9c2176992498db47bc_add (data) {
+            geo_json_c7fc7af6a1a9ec9c2176992498db47bc
+                .addData(data);
+        }
+            geo_json_c7fc7af6a1a9ec9c2176992498db47bc_add({"features": [{"geometry": {"coordinates": [[[-3.7046251, 42.3492987], [-3.7032966, 42.3485949], [-3.7032252, 42.3486864], [-3.7030062, 42.3495063], [-3.7025538, 42.3504318], [-3.7023158, 42.3506933], [-3.702111, 42.3508517], [-3.7016063, 42.3514162], [-3.7010206, 42.3518912], [-3.7012873, 42.3521094], [-3.7015968, 42.3518983], [-3.7032585, 42.3514127], [-3.7042108, 42.3509904], [-3.7046441, 42.3509447], [-3.7046918, 42.3507406], [-3.7046822, 42.3505681], [-3.7044965, 42.3504696], [-3.7045394, 42.3502479], [-3.7046727, 42.3501775], [-3.7047013, 42.3498925], [-3.7047298, 42.3494139], [-3.7046251, 42.3492987]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_7bc1eab388d4cd1e901e6bb7e5931ac0 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_92d4fafb63cef32c8fb02a7bef7509d6 = $(`<div id="html_92d4fafb63cef32c8fb02a7bef7509d6" style="width: 100.0%; height: 100.0%;">ID: 1213&lt;br&gt;Nombre: Parque para Perros&lt;br&gt;Área: 90262.08 m²</div>`)[0];
+                popup_7bc1eab388d4cd1e901e6bb7e5931ac0.setContent(html_92d4fafb63cef32c8fb02a7bef7509d6);
+            
+        
+
+        geo_json_c7fc7af6a1a9ec9c2176992498db47bc.bindPopup(popup_7bc1eab388d4cd1e901e6bb7e5931ac0)
+        ;
+
+        
+    
+    
+            geo_json_c7fc7af6a1a9ec9c2176992498db47bc.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_a8fda3a3b4a078c7317f4e734382dc06_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_a8fda3a3b4a078c7317f4e734382dc06_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_a8fda3a3b4a078c7317f4e734382dc06 = L.geoJson(null, {
+                onEachFeature: geo_json_a8fda3a3b4a078c7317f4e734382dc06_onEachFeature,
+            
+                style: geo_json_a8fda3a3b4a078c7317f4e734382dc06_styler,
+        });
+
+        function geo_json_a8fda3a3b4a078c7317f4e734382dc06_add (data) {
+            geo_json_a8fda3a3b4a078c7317f4e734382dc06
+                .addData(data);
+        }
+            geo_json_a8fda3a3b4a078c7317f4e734382dc06_add({"features": [{"geometry": {"coordinates": [[[-3.6756216, 42.3425209], [-3.6754116, 42.3415371], [-3.6763936, 42.341469], [-3.6768337, 42.3414754], [-3.6777523, 42.3415988], [-3.6793136, 42.341683], [-3.6791213, 42.3421487], [-3.6771956, 42.3423769], [-3.6756216, 42.3425209]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_8cc78a0043d7b8079ab520fca97d8175 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_6ab16b25482e24eeb78055ca7e8cb166 = $(`<div id="html_6ab16b25482e24eeb78055ca7e8cb166" style="width: 100.0%; height: 100.0%;">ID: 1214&lt;br&gt;Nombre: Parque para Perros&lt;br&gt;Área: 48766.24 m²</div>`)[0];
+                popup_8cc78a0043d7b8079ab520fca97d8175.setContent(html_6ab16b25482e24eeb78055ca7e8cb166);
+            
+        
+
+        geo_json_a8fda3a3b4a078c7317f4e734382dc06.bindPopup(popup_8cc78a0043d7b8079ab520fca97d8175)
+        ;
+
+        
+    
+    
+            geo_json_a8fda3a3b4a078c7317f4e734382dc06.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+    
+        function geo_json_3c95a2a3588d578cd9427ba7bfce5a9c_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red", "fillOpacity": 0.4, "weight": 1};
+            }
+        }
+
+        function geo_json_3c95a2a3588d578cd9427ba7bfce5a9c_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_3c95a2a3588d578cd9427ba7bfce5a9c = L.geoJson(null, {
+                onEachFeature: geo_json_3c95a2a3588d578cd9427ba7bfce5a9c_onEachFeature,
+            
+                style: geo_json_3c95a2a3588d578cd9427ba7bfce5a9c_styler,
+        });
+
+        function geo_json_3c95a2a3588d578cd9427ba7bfce5a9c_add (data) {
+            geo_json_3c95a2a3588d578cd9427ba7bfce5a9c
+                .addData(data);
+        }
+            geo_json_3c95a2a3588d578cd9427ba7bfce5a9c_add({"features": [{"geometry": {"coordinates": [[[-3.6670144, 42.3659549], [-3.6670219, 42.3660907], [-3.6669673, 42.3662204], [-3.6668568, 42.3663291], [-3.6667171, 42.3663994], [-3.6665548, 42.3664344], [-3.6663858, 42.3664305], [-3.6662267, 42.3663882], [-3.6660932, 42.3663116], [-3.6659982, 42.3662082], [-3.6659513, 42.3660882], [-3.6659569, 42.3659633], [-3.6660219, 42.3658363], [-3.6661409, 42.3657327], [-3.6663001, 42.3656647], [-3.666481, 42.3656401], [-3.6666625, 42.3656618], [-3.6668236, 42.3657273], [-3.6669457, 42.3658289], [-3.6670144, 42.3659549]]], "type": "Polygon"}, "id": "0", "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+        var popup_df7bfecbcb387f3508164d3ff2a1a3f3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0551e48b01cce966f5717882142c20c2 = $(`<div id="html_0551e48b01cce966f5717882142c20c2" style="width: 100.0%; height: 100.0%;">ID: 1237&lt;br&gt;Nombre: Parque para Perros&lt;br&gt;Área: 11132.16 m²</div>`)[0];
+                popup_df7bfecbcb387f3508164d3ff2a1a3f3.setContent(html_0551e48b01cce966f5717882142c20c2);
+            
+        
+
+        geo_json_3c95a2a3588d578cd9427ba7bfce5a9c.bindPopup(popup_df7bfecbcb387f3508164d3ff2a1a3f3)
+        ;
+
+        
+    
+    
+            geo_json_3c95a2a3588d578cd9427ba7bfce5a9c.addTo(map_8d5509534aecc56c69f8201047f928ac);
+        
+</script>
+</html>
