@@ -6,6 +6,8 @@ import networkx as nx
 import caracter_perro as cp
 import velocidad_y_distancia as vd
 import carga_datos_yDevolver_json as carga_datos
+import folium
+import osmnx as ox
 
 def lineas_a_nodos(calles_gdf):
     nodos = set()
@@ -25,7 +27,13 @@ def calcular_distancia_y_tipo_zonas_verdes(arista, zonas_verdes_gdf):
     punto_arista = arista.geometry.centroid
     distancia_minima = float('inf')
     es_dog_park = False
-    for _, zona_verde in zonas_verdes_gdf.iterrows():
+    # Crea el índice espacial (R-tree)
+    sindex = zonas_verdes_gdf.sindex
+    # Encuentra todas las zonas verdes en el GeoDataFrame que se intersectan con el punto de la arista
+    indices = list(sindex.intersection(punto_arista.bounds))
+    zonas_verdes_cercanas = zonas_verdes_gdf.loc[indices]
+
+    for _, zona_verde in zonas_verdes_cercanas.iterrows():
         distancia = punto_arista.distance(zona_verde.geometry)
         if distancia < distancia_minima:
             distancia_minima = distancia
@@ -113,21 +121,21 @@ def estimar_distancia(duracion, perfil_perro):
     # Calcula la distancia basada en la duración del paseo y la velocidad
     return duracion * velocidad
 
-def seleccionar_ruta(rutas, G, zonas_verdes_gdf, perfil_perro):
+def generar_rutas(G, nodo_mas_cercano, duracion_paseo, perfil_perro, zonas_verdes_gdf):
+    distancia_estimada = estimar_distancia(duracion_paseo, perfil_perro)
+    rutas_posibles = encontrar_rutas_circulares(G, nodo_mas_cercano, distancia_estimada)
+    mejor_ruta = seleccionar_ruta(rutas_posibles, G, zonas_verdes_gdf, perfil_perro, nodo_mas_cercano)
+    return mejor_ruta
+
+def seleccionar_ruta(rutas, G, zonas_verdes_gdf, perfil_perro, nodo_mas_cercano):
     if not rutas:
-        return None
+        return [[nodo_mas_cercano, nodo_mas_cercano]]
     # Evaluar y puntuar cada ruta
     puntuaciones_rutas = [(ruta, puntuar_ruta(ruta, G, zonas_verdes_gdf, perfil_perro)) for ruta in rutas]
     # Ordenar las rutas por puntuación (menor es mejor)
     puntuaciones_rutas.sort(key=lambda x: x[1])
     # Devolver la ruta con la mejor puntuación
     return puntuaciones_rutas[0][0] if puntuaciones_rutas else None
-
-def generar_rutas(G, nodo_inicio, duracion, perfil_perro):
-    distancia_estimada = estimar_distancia(duracion, perfil_perro)
-    rutas_posibles = encontrar_rutas_circulares(G, nodo_inicio, distancia_estimada)
-    mejor_ruta = seleccionar_ruta(rutas_posibles, G, carga_datos.zonas_verdes_gdf, perfil_perro)  
-    return mejor_ruta
 
 def crear_grafo_desde_geojson(nodos_gdf, aristas_gdf):
     G = nx.Graph()
@@ -140,3 +148,13 @@ def crear_grafo_desde_geojson(nodos_gdf, aristas_gdf):
         G.graph['crs'] = 'epsg:4326'  # Establecer el CRS aquí
     return G
 
+def visualizar_rutas(G, rutas, latitud_actual, longitud_actual):
+    mapa = folium.Map(location=[latitud_actual, longitud_actual], zoom_start=15)
+    for ruta in rutas:
+        # Verificar si la ruta contiene al menos una arista
+        if len(ruta) > 1 and ruta[0] != ruta[1]:
+            ox.plot_route_folium(G, ruta, route_map=mapa)
+    # Guardar el mapa en un archivo HTML
+    nombre_archivo_mapa = 'rutas_paseo.html'
+    mapa.save(nombre_archivo_mapa)
+    return nombre_archivo_mapa
