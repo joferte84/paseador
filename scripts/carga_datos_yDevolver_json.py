@@ -1,36 +1,44 @@
+import carga_datos_yDevolver_json as carga_datos
 import geopandas as gpd
-from shapely.ops import nearest_points
-import json
-from nodos_rutas_y_pesos import crear_grafo_desde_geojson
-import osmnx as ox
+import nodos_rutas_y_pesos as nrp
+import geopandas as gpd
 
-def cargar_datos_geojson(nombre_archivo_nodos, nombre_archivo_aristas):
-    # Cargar datos de nodos y aristas desde archivos GeoJSON
-    nodos_gdf = gpd.read_file('nodos_burgos.geojson')
-    aristas_gdf = gpd.read_file('aristas_burgos.geojson')
-    return nodos_gdf, aristas_gdf
+# Principal
+def main(json_input):
+    datos_perro = carga_datos.cargar_datos_perro(json_input)
+    if not datos_perro:
+        print("No se pudieron cargar los datos del perro.")
+        return
 
-def zonas_verdes_gdf(nombre_archivo_zonas_verdes):
+    latitud_actual, longitud_actual = datos_perro['latitud'], datos_perro['longitud']
+    tamaño, edad, raza = datos_perro['tamaño'], datos_perro['edad'], datos_perro['raza']
+    duracion_paseo = datos_perro['duracion']
+
+    # Cargar datos geográficos
+    nombre_archivo_nodos = 'nodos_burgos.geojson'
+    nombre_archivo_aristas = 'aristas_burgos.geojson'
+    nodos_gdf, aristas_gdf = carga_datos.cargar_datos_geojson(nombre_archivo_nodos, nombre_archivo_aristas)
+    G = carga_datos.crear_grafo_desde_geojson(nodos_gdf, aristas_gdf)
+
+    # Cargar zonas verdes
     zonas_verdes_gdf = gpd.read_file('parques.geojson')
-    return zonas_verdes_gdf
-    
-def obtener_ubicacion_actual(G, latitud, longitud):
-    return ox.nearest_nodes(G, longitud, latitud)
+    factor_reduccion_general = 0.5
+    factor_reduccion_dog_park = 0.7  # Mayor reducción para dog parks
+    nrp.aplicar_peso_zonas_verdes(G, zonas_verdes_gdf, distancia_umbral=10, 
+                            factor_reduccion=factor_reduccion_general, 
+                            factor_reduccion_dog_park=factor_reduccion_dog_park)
 
-def generar_json_respuesta(rutas, nombre_archivo_mapa):
-    # Aquí puedes incluir más detalles sobre las rutas si lo necesitas
-    info_rutas = {
-        "mapa_html": nombre_archivo_mapa,
-        "detalles_rutas": rutas  # Puedes incluir detalles como coordenadas o nodos
-    }
-    return json.dumps(info_rutas)
+    nodo_mas_cercano = carga_datos.obtener_ubicacion_actual(G, latitud_actual, longitud_actual)
 
-def cargar_datos_perro(json_input):
-    try:
-        # Decodificar el JSON y convertirlo en un diccionario de Python
-        datos_perro = json.loads(json_input)
-        return datos_perro
-    except json.JSONDecodeError as e:
-        print(f"Error al decodificar el JSON: {e}")
-        return None
-    
+    # Generar y visualizar rutas
+    perfil_perro = {'tamaño': tamaño, 'edad': edad, 'raza': raza}
+    rutas = nrp.generar_rutas(G, nodo_mas_cercano, duracion_paseo, perfil_perro, zonas_verdes_gdf)
+    nombre_archivo_mapa = nrp.visualizar_rutas(G, rutas, latitud_actual, longitud_actual)
+    # nombre_archivo_mapa.save('rutas_paseo.html')
+    respuesta_json = carga_datos.generar_json_respuesta(rutas, nombre_archivo_mapa, json_input)    
+    return respuesta_json
+
+if __name__ == "__main__":
+    json_input = '{"latitud": 42.3439, "longitud": -3.1007, "tamaño": "mediano", "edad": 5, "raza": "Labrador", "duracion": 30}'
+    respuesta = main(json_input)
+    print(respuesta)
