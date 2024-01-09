@@ -35,7 +35,7 @@ def main(json_input):
     rutas = nrp.generar_rutas(G, nodo_mas_cercano, duracion_paseo, perfil_perro, zonas_verdes_gdf)
     nombre_archivo_mapa = nrp.visualizar_rutas(G, rutas, latitud_actual, longitud_actual)
     # nombre_archivo_mapa.save('rutas_paseo.html')
-    respuesta_json = carga_datos.generar_json_respuesta(rutas, nombre_archivo_mapa)
+    respuesta_json = carga_datos.generar_json_respuesta(rutas, nombre_archivo_mapa, json_input)    
     return respuesta_json
 
 if __name__ == "__main__":
