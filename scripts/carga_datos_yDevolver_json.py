@@ -1,8 +1,8 @@
 import geopandas as gpd
-import osmnx as ox
 from shapely.ops import nearest_points
-import folium
 import json
+from nodos_rutas_y_pesos import crear_grafo_desde_geojson
+import osmnx as ox
 
 def cargar_datos_geojson(nombre_archivo_nodos, nombre_archivo_aristas):
     # Cargar datos de nodos y aristas desde archivos GeoJSON
@@ -10,26 +10,12 @@ def cargar_datos_geojson(nombre_archivo_nodos, nombre_archivo_aristas):
     aristas_gdf = gpd.read_file('aristas_burgos.geojson')
     return nodos_gdf, aristas_gdf
 
-def cargar_datos(nombre_archivo_zonas_verdes):
+def zonas_verdes_gdf(nombre_archivo_zonas_verdes):
     zonas_verdes_gdf = gpd.read_file('parques.geojson')
     return zonas_verdes_gdf
     
 def obtener_ubicacion_actual(G, latitud, longitud):
-    # Retorna el nodo más cercano a la ubicación dada
-    return ox.get_nearest_node(G, (latitud, longitud))
-
-def obtener_ubicacion_actual():
-    # En un caso real, esta función obtendría la ubicación actual del usuario
-    return 42.3439, -3.6969  
-
-def visualizar_rutas(G, rutas, latitud_actual, longitud_actual):
-    mapa = folium.Map(location=[latitud_actual, longitud_actual], zoom_start=15)
-    for ruta in rutas:
-        ox.plot_route_folium(G, ruta, route_map=mapa)
-    # Guardar el mapa en un archivo HTML
-    nombre_archivo_mapa = 'rutas_paseo.html'
-    mapa.save(nombre_archivo_mapa)
-    return nombre_archivo_mapa
+    return ox.nearest_nodes(G, longitud, latitud)
 
 def generar_json_respuesta(rutas, nombre_archivo_mapa):
     # Aquí puedes incluir más detalles sobre las rutas si lo necesitas
