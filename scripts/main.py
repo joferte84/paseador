@@ -21,10 +21,10 @@ def main(json_input):
     G = carga_datos.crear_grafo_desde_geojson(nodos_gdf, aristas_gdf)
 
     # Cargar zonas verdes
-    zonas_verdçes_gdf = gpd.read_file('parques.geojson')
+    zonas_verdes_gdf = gpd.read_file('parques.geojson')
     factor_reduccion_general = 0.5
     factor_reduccion_dog_park = 0.7  # Mayor reducción para dog parks
-    nrp.aplicar_peso_zonas_verdes(G, carga_datos.zonas_verdes_gdf, distancia_umbral=10, 
+    nrp.aplicar_peso_zonas_verdes(G, zonas_verdes_gdf, distancia_umbral=10, 
                             factor_reduccion=factor_reduccion_general, 
                             factor_reduccion_dog_park=factor_reduccion_dog_park)
 
@@ -32,10 +32,10 @@ def main(json_input):
 
     # Generar y visualizar rutas
     perfil_perro = {'tamaño': tamaño, 'edad': edad, 'raza': raza}
-    rutas = nrp.generar_rutas(G, nodo_mas_cercano, duracion_paseo, perfil_perro)
+    rutas = nrp.generar_rutas(G, nodo_mas_cercano, duracion_paseo, perfil_perro, zonas_verdes_gdf)
     nombre_archivo_mapa = nrp.visualizar_rutas(G, rutas, latitud_actual, longitud_actual)
-    nombre_archivo_mapa.save('rutas_paseo.html')
-    respuesta_json = carga_datos.generar_json_respuesta(rutas, nombre_archivo_mapa)
+    # nombre_archivo_mapa.save('rutas_paseo.html')
+    respuesta_json = carga_datos.generar_json_respuesta(rutas, nombre_archivo_mapa, json_input)    
     return respuesta_json
 
 if __name__ == "__main__":
