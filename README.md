@@ -33,12 +33,12 @@ En desarrollo...
 
 ## Dependencias
 
-- geopandas
-- shapely
-- osmnx
-- folium
-- overpy
-- ortools
+- geopandas: Extiende Pandas para el manejo eficiente de datos geoespaciales, facilitando análisis y operaciones espaciales.
+- shapely: Biblioteca para la manipulación y análisis de figuras geométricas, ofreciendo herramientas para operaciones espaciales.
+- osmnx: Permite descargar y analizar redes de calles de OpenStreetMap, ideal para trabajar con datos de mapas y redes urbanas.
+- folium: Crea mapas interactivos con Python, integrando capacidades de Leaflet.js para visualizaciones geoespaciales enriquecidas.
+- overpy: Interfaz para consultar datos de OpenStreetMap a través de la API de Overpass, facilitando el acceso a datos espaciales específicos.
+- ortools: Proporciona soluciones a problemas de optimización combinatoria como el TSP, optimizando rutas y asignaciones.
 
 
 Este README proporciona una visión general del proyecto Paseador de Perros, diseñado para ayudar en la planificación y optimización de rutas de paseo para perros, teniendo en cuenta una variedad de factores importantes.
